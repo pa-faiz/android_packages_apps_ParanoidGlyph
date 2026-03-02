@@ -28,6 +28,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 
 import androidx.preference.Preference;
@@ -308,8 +309,10 @@ public class SettingsFragment extends SettingsBasePreferenceFragment implements 
     private void updateTorchTile() {
         try {
             Intent intent = new Intent("co.aospa.glyph.UPDATE_TORCH_TILE");
-            requireContext().sendBroadcast(intent);
+            intent.setPackage("co.aospa.glyph"); // EKLENDİ: explicit broadcast
+            requireContext().sendBroadcastAsUser(intent, UserHandle.SYSTEM); // SYSTEM user
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
